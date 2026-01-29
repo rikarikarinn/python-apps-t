@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <title>Music Recommend</title>
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      height: 100vh;
+      font-family: "Noto Sans JP", system-ui, sans-serif;
+      background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      color: #fff;
+    }
+
+    .card {
+      background: rgba(255, 255, 255, 0.08);
+      border-radius: 16px;
+      padding: 40px 48px;
+      width: 420px;
+      text-align: center;
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+      backdrop-filter: blur(10px);
+    }
+
+    h1 {
+      margin: 0 0 16px;
+      font-size: 26px;
+      letter-spacing: 0.05em;
+    }
+
+    .message {
+      font-size: 15px;
+      line-height: 1.8;
+      color: #e0e0e0;
+      margin-bottom: 32px;
+    }
+
+    .hint {
+      font-size: 13px;
+      color: #b5d8ff;
+      background: rgba(255, 255, 255, 0.1);
+      padding: 12px 16px;
+      border-radius: 10px;
+    }
+
+    footer {
+      margin-top: 24px;
+      font-size: 12px;
+      color: #aaa;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="card">
+    <h1>🎧 Music Recommend</h1>
+
+    {% if track %}
+      <div class="message">
+        次に聴くべき曲は<br><br>
+        <strong>{{ track.title }}</strong><br>
+        / {{ track.artist.name }}
+      </div>
+    {% else %}
+      <div class="message">
+        まだ曲が登録されていません。<br>
+        管理画面から曲を追加してください。
+      </div>
+
+      <div class="hint">
+        管理画面 → Artist / Genre / Track を先に登録すると<br>
+        レコメンドが動き出します 🎵
+      </div>
+    {% endif %}
+
+    <footer>
+      Django Music App
+    </footer>
+  </div>
+
+</body>
+</html>

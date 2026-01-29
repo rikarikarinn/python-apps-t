@@ -1,0 +1,13 @@
+{
+	"folders": [
+		{
+			"name": "music",
+			"path": "../python-apps-django/music"
+		},
+		{
+			"name": "python_apps_django",
+			"path": "python_apps_django"
+		}
+	],
+	"settings": {}
+}

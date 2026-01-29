@@ -38,3 +38,5 @@ run:
   command: sh entrypoint.sh
   network:
     port: 8000
+
+    

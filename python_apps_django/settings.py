@@ -10,9 +10,11 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/5.2/ref/settings/
 """
 
+import os
 from pathlib import Path
 
-from dotenv import load_dotenv load_dotenv()
+from dotenv import load_dotenv 
+load_dotenv()
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -27,18 +29,10 @@ SECRET_KEY = 'django-insecure-4b105f&v8tq-iztn(jl_fs1x8t4vmglr9ume3kpxlu3_(43lkr
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = (os.enveron.get("ALLOWED_HOSTS") or "").split(",")
-CSRF_TRUSTED_ORIGINS = (os.enveron.get("CSRF_TRUSTED_ORIGINS") or "").split(",")
+ALLOWED_HOSTS = (os.environ.get("ALLOWED_HOSTS") or "").split(",")
+CSRF_TRUSTED_ORIGINS = (os.environ.get("CSRF_TRUSTED_ORIGINS") or "").split(",")
 
 
-if (os.environ.get("ENABLE_BASIC_AUTH") or "false") == "true":
-    print(
-        f"Enable Basic Auth Middleware in settings.py {os.environ.get('ENABLE_BASIC_AUTH')}"
-    )
-    MIDDLEWARE.append("basicauth.middleware.BasicAuthMiddleware")
-    BASICAUTH_USERS = {
-        os.environ.get("BASIC_AUTH_USERNAME"): os.environ.get("BASIC_AUTH_PASSWORD"),
-    }
 
 # Application definition
 
@@ -61,6 +55,14 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
+if (os.environ.get("ENABLE_BASIC_AUTH") or "false") == "true":
+    print(
+        f"Enable Basic Auth Middleware in settings.py {os.environ.get('ENABLE_BASIC_AUTH')}"
+    )
+    MIDDLEWARE.append("basicauth.middleware.BasicAuthMiddleware")
+    BASICAUTH_USERS = {
+        os.environ.get("BASIC_AUTH_USERNAME"): os.environ.get("BASIC_AUTH_PASSWORD"),
+    }
 
 ROOT_URLCONF = 'python_apps_django.urls'
 

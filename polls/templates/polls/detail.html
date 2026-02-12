@@ -1,0 +1,171 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <title>アンケート</title>
+  <link rel="stylesheet" href="{% static 'polls/detail.css' %}">
+<style>
+  /* --- 全体設定 --- */
+body {
+  font-family: 'Noto Sans JP', sans-serif;
+  background-color: #fff8f5;
+  color: #333;
+  text-align: center;
+  margin: 0;
+  padding: 30px 15px;
+}
+
+/* --- 見出し --- */
+h1 {
+  color: #000000;
+  font-size: 2.2rem;
+  margin-bottom: 30px;
+  text-shadow: 1px 1px 2px rgba(0,0,0,0.1);
+}
+
+/* --- カードデザイン（一覧に統一） --- */
+form {
+  background-color: #fff3f0;
+  padding: 25px 20px;
+  border-radius: 15px;
+  max-width: 500px;
+  margin: 0 auto;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.05);
+}
+
+/* --- 選択肢 --- */
+.choices {
+  margin-bottom: 20px;
+}
+
+.choice-item {
+  display: flex;
+  align-items: center;
+  padding: 12px 15px;
+  margin-bottom: 12px;
+  background-color: #ffffff;
+  border: 1px solid #f3e1dd;
+  border-radius: 12px;
+  transition: all 0.2s ease;
+  cursor: pointer;
+}
+
+.choice-item:hover {
+  transform: translateY(-3px);
+  background-color: #fff3f0;
+}
+
+.choice-item input[type="radio"] {
+  margin-right: 12px;
+  accent-color: #000000;
+}
+
+/* --- ボタン --- */
+button[type="submit"] {
+  background-color: #000000;
+  color: white;
+  border: none;
+  padding: 10px 25px;
+  border-radius: 25px;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+button[type="submit"]:hover {
+  background-color: #333333;
+}
+
+/* --- リンク（一覧と同じ） --- */
+a {
+  text-decoration: none;
+  color: #000000;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
+/* --- トップに戻るボタン --- */
+p a {
+  display: inline-block;
+  margin-top: 30px;
+  padding: 10px 20px;
+  background-color: #000000;
+  color: #fff;
+  border-radius: 25px;
+  transition: background-color 0.3s;
+}
+
+p a:hover {
+  background-color: #333333;
+}
+
+/* --- レスポンシブ --- */
+@media (max-width: 600px) {
+  body {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;   /* 縦方向の中央寄せ */
+    align-items: center;       /* 横方向の中央寄せ */
+    min-height: 100vh;         /* 全画面の高さ確保 */
+    padding: 40px 10px;        /* 上下が狭すぎないよう調整 */
+  }
+
+  h1 {
+    font-size: 1.9rem;
+    margin-bottom: 30px;
+  }
+
+  ul {
+    width: 100%;
+    max-width: 350px;          /* ボタン横幅を広めに */
+  }
+
+  li {
+    flex: 1 1 100%;
+  }
+
+  a {
+    padding: 20px 0;           /* ボタンを大きく */
+    font-size: 1.2rem;         /* 文字を少し大きく */
+  }
+
+  form {
+    padding: 20px 15px;
+  }
+
+  .choice-item {
+    padding: 12px 14px;
+    font-size: 1.1rem;
+  }
+}
+
+
+</style>
+</head>
+<body>
+  {% if error_message %}
+    <p class="error">{{ error_message }}</p>
+  {% endif %}
+
+  <form action="{% url 'polls:vote' question.id %}" method="post">
+    {% csrf_token %}
+
+    <div class="choices">
+      {% for choice in question.choice_set.all %}
+        <label class="choice-item">
+          <input type="radio" name="choice" value="{{ choice.id }}">
+          {{ choice.choice_text }}
+        </label><br>
+      {% endfor %}
+    </div>
+
+    <button type="submit">投票する</button>
+  </form>
+
+  <p><a href="{% url 'polls:index' %}">一覧に戻る</a></p>
+
+</body>
+</html>

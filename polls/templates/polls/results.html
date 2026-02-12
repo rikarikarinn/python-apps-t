@@ -1,0 +1,165 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <title>投票結果</title>
+<style>
+  /* --- 全体設定 --- */
+body {
+  font-family: 'Noto Sans JP', sans-serif;
+  background-color: #fff8f5;
+  color: #333;
+  text-align: center;
+  margin: 0;
+  padding: 30px 15px;
+}
+
+/* --- 見出し --- */
+h1 {
+  color: #000000;
+  font-size: 2.2rem;
+  margin-bottom: 25px;
+  text-shadow: 1px 1px 2px rgba(0,0,0,0.1);
+}
+
+/* --- 結果行（カードっぽく） --- */
+.result-row {
+  background-color: #fff3f0;
+  padding: 12px 18px;
+  margin: 12px auto;
+  border-radius: 15px;
+  max-width: 550px;
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.05);
+}
+
+/* --- ラベル --- */
+.label {
+  width: 110px;
+  text-align: right;
+  font-weight: 500;
+}
+
+/* --- グラフバー --- */
+.bar-container {
+  flex: 1;
+  height: 20px;
+  background-color: #ffe7e1;
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+.bar {
+  height: 100%;
+  background-color: #242324;
+  transition: width 0.4s ease;
+}
+
+/* --- 票数 --- */
+.count {
+  width: 60px;
+  text-align: left;
+}
+
+/* --- 総票数 --- */
+.total {
+  margin-top: 25px;
+  font-size: 1.1rem;
+  font-weight: 500;
+}
+
+/* --- リンク（一覧と統一） --- */
+a {
+  text-decoration: none;
+  color: #000000;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
+/* --- トップに戻るボタン --- */
+p a {
+  display: inline-block;
+  margin-top: 30px;
+  padding: 10px 20px;
+  background-color: #000000;
+  color: #fff;
+  border-radius: 25px;
+  transition: background-color 0.3s;
+}
+
+p a:hover {
+  background-color: #333333;
+}
+
+/* --- レスポンシブ --- */
+@media (max-width: 600px) {
+
+/* タイトル少し大きめ＆上に余白 */
+h1 {
+  font-size: 2rem;
+  margin-top: 20px;
+  margin-bottom: 30px;
+  text-align: center;
+}
+
+/* 結果表示（ループ部分）は縦にして中央に寄せる */
+.result-row {
+  flex-direction: column;
+  gap: 10px;
+  align-items: center; /* ← 中央寄せ */
+  text-align: center;  /* ← 中央寄せ */
+}
+
+/* ラベルと数字を中央揃えに */
+.label, .count {
+  width: 100%;
+  text-align: center;
+  font-size: 1.1rem; /* 少し大きめ */
+}
+
+/* ボタン（選択肢）の幅を広げる & 中央寄せ */
+.choice-item {
+  width: 90%;               /* ← スマホで広めに */
+  max-width: 350px;         /* ← 伸びすぎ防止 */
+  margin: 0 auto;           /* ← 中央配置 */
+  padding: 14px 16px;       /* ← 少し大きめ */
+  font-size: 1.1rem;        /* ← 文字も大きく */
+  text-align: center;
+}
+
+/* form 全体も中央寄せ＋狭すぎないよう調整 */
+form {
+  width: 100%;
+  max-width: 400px;
+  margin: 0 auto;         /* ← 中央寄せ */
+  padding: 20px 15px;
+}
+}
+
+
+
+</style>
+</head>
+<body>
+  <h1>{{ question.question_text }}</h1>
+
+  {% for c in choices %}
+  <div class="result-row">
+    <div class="label">{{ c.text }}</div>
+    <div class="bar-container">
+      <div class="bar" style="width: {{ c.ratio }}%"></div>
+    </div>
+    <div class="count">{{ c.votes }}票 ({{ c.ratio }}%)</div>
+  </div>
+  {% endfor %}
+
+  <p>総投票数：{{ total_votes }}票</p>
+
+  <p><a href="{% url 'polls:index' %}">一覧に戻る</a></p>
+</body>
+</html>

@@ -1,22 +1,8 @@
-import random
 from django.shortcuts import render
 from .models import Track
+import random
 
-
-def index(request):
-    return HttpResponse("music app 動いてる！")
-
-
-def recommend_random(request):
+def recommend(request):
     tracks = list(Track.objects.all())
-
-    if not tracks:
-        return render(request, "music/recommend.html", {
-            "track": None
-        })
-
-    track = random.choice(tracks)
-
-    return render(request, "music/recommend.html", {
-        "track": track
-    })
+    track = random.choice(tracks) if tracks else None
+    return render(request, 'music/recommend.html', {'track': track})
